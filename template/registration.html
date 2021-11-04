@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content%}
+    <div>
+        <h1>start registration</h1>
+        <form id='register_form' method="POST" action="{{ register_url }}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in register_form %}
+                <div class= 'container'>
+                    <label for='{{ field.id_for_label }}'>
+                        {{ field.html_name }}
+                    </label>
+                    <div>
+                        {{ field }}
+                    </div>
+                    {% for error in field.errors %}
+                        <p class= 'help is-danger'>
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <br>
+            <input class ='btn' type="submit" name="submit" value="submit">
+        </form>
+    
+    </div>
+
+{% endblock %}

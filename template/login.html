@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h2>welcome to Village app</h2>
+<form id="login_form" method="POST" action="{% url 'users:login' %}">
+    {% csrf_token %}
+    <div>
+        <label for="username">
+            email
+            
+        </label>
+        <input type="text" class="form-control" id="username" name="username" value="">
+    </div>
+    <div>
+        <label for="username">
+           password
+            
+        </label>
+        <input type="password" class="form-control" id="password" name="password" value="">
+    </div>
+    <input class="btn" type="submit" value="submit">
+    
+</form>
+{% endblock %}
