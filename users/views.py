@@ -1,11 +1,13 @@
 from typing import ItemsView
 from django.contrib import messages
+from django.db.models.query_utils import Q
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView
+from django.views import generic
+from django.views.generic import TemplateView, ListView
 from django.urls import reverse
-from users.forms import EmployeeForm, PanchayathForm, EndUserForm
-from users.models import Employee, EndUser
+from users.forms import EmployeeForm, PanchayathForm, EndUserForm, NewsForm, SalaryForm
+from users.models import Employee, EndUser, News, Salary
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -145,6 +147,77 @@ def logoutview(request):
     logout(request)
 
     return redirect('users:home')
+
+
+class EmployeeListView(ListView):
+    model = Employee
+    template_name = 'employee_list.html'
+
+    def get_queryset(self):
+        current_user = self.request.user
+        panchayath = current_user.panchayath
+        return Employee.objects.filter(Q(panchayath_name = panchayath)) 
+
+
+def addnews(request):
+    register_url = reverse('users:add_news')
+    if request.method=='POST':
+        print(request.POST)
+        register_form =NewsForm(data= request.POST)
+
+        if register_form.is_valid():
+            item = News(**register_form.cleaned_data)
+            item.panchayath_name = request.user.panchayath
+            item.save()
+            messages.success(request, 'successfully created a news!')
+            return redirect('users:index')
+        else:
+            return render(request, 'registration.html', {'register_form':register_form, 'register_url':register_url})
+    
+    else:
+        register_form = NewsForm()
+        return render(request, 'registration.html', {'register_form':register_form, 'register_url':register_url})
+
+
+class ViewNews(ListView):
+    model = News
+    template_name = 'news_details.html'
+
+
+    def get_queryset(self):
+        current_user = self.request.user
+        panchayath = current_user.panchayath
+        return News.objects.filter(Q(panchayath_name = panchayath)) 
+
+
+def salary_updation_view(request, employee_id):
+    register_url = reverse('users:update_salary', kwargs={'employee_id':employee_id})
+    employee = Employee.objects.get(id= employee_id)
+    if request.method == 'POST':
+        register_form = SalaryForm(data=request.POST)
+        if register_form.is_valid():
+            item = Salary(**register_form.cleaned_data)
+            item.panchayath_name = request.user.panchayath
+            item.employee_name = employee
+            item.save()
+
+            return redirect('users:index')
+
+        else:
+            return render(request, 'registration.html', {'register_form':register_form, 'register_url':register_url})
+    
+    else:
+        register_form = SalaryForm()
+        return render(request, 'registration.html', {'register_form':register_form, 'register_url':register_url})
+
+
+
+
+
+
+
+
+
 
 
 

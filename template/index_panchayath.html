@@ -2,11 +2,14 @@
 
 <a class="nav-link" href="{% url 'users:logout' %}">logout</a>
 
-<a class="nav-link" href='{% url "users:employee_registration"%}'>Register Employee</a>
+<a class="nav-link" href='{% url "users:employee_registration" %}'>Register Employee</a>
 
-<a class="nav-link" href="">Employees</a>
+<a class="nav-link" href="{% url 'users:employee_list' %}">Employees</a>
 
-<a class="nav-link" href="">Add NEWS</a>
+<a class="nav-link" href="{% url 'users:add_news' %}">Add NEWS</a>
+
+<a class="nav-link" href="{% url 'users:news' %}"> NEWS</a>
+
 
 <a class="nav-link" href="">View Complaints</a>
 

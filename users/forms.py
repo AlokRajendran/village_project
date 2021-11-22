@@ -65,13 +65,13 @@ class EndUserForm(forms.ModelForm):
 class ComplaintForm(forms.ModelForm):
     class Meta:
         model = Complaint
-        fields = ('description')
+        fields = ('description',)
 
 
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        fields = ('description')
+        fields = ('title','description',)
 
 
 class SalaryForm(forms.ModelForm):

@@ -26,6 +26,14 @@ class BaseUser(AbstractUser):
         else:
             return False
 
+
+    def is_enduser(self): 
+        if self.enduser:
+            return True
+        else:
+            return False
+
+
 class Panchayath(BaseUser):
     panchayath_name = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
@@ -81,6 +89,7 @@ class Complaint(models.Model):
 class News(models.Model):
     panchayath_name = models.ForeignKey(Panchayath, on_delete= models.CASCADE, related_name='news')
     created_date = models.DateTimeField(default=timezone.now)
+    title = models.TextField(default = 'title')
     description = models.TextField()
 
 

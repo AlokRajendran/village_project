@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+
+{% block content %} 
+
+    {% if object_list %}
+    <h1>NEWS</h1>
+    <div>
+        {% for object in object_list%}
+        <div>
+            <p>
+                {{object.created_date}}
+            </p>
+            <p>
+                {{object.title}}
+            </p>
+            <p>
+                {{object.description}}
+            </p>
+
+            <hr/>
+            <!-- to give horizontal line -hr -->
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+
+    {% endif %}
+
+{% endblock %} 

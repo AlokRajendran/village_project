@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+
+{% block content%} 
+
+<div>
+    <div class="table-responsive">
+        <h4>Employee List</h4>
+        <table class="table">
+            <th>
+                {% if object_list %}
+                    <tr>
+                        <th></th>
+                        <th> name </th>
+                        <th> job </th>
+                        <th> address</th>
+                        <th> phone </th>
+                        <th> salary </th>
+
+                    </tr>
+                {% endif %}
+            </th>
+            <tbody>
+                {% if object_list %}
+                    {% for objects in object_list %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <td>{{ objects.employee_name}}</td>
+                            <td> {{ objects.job_title}}</td>
+                            <td> {{ objects.address}}</td>
+                            <td> {{ objects.phone}}</td>
+                            <td> 
+                                <a href="{% url 'users:update_salary' employee_id=objects.pk %}">Update salary details</a>
+
+                            </td>
+
+                               
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                        <tr>
+                            <th> No Employees Found</th>
+                        </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %} 
